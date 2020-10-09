@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     /* 将QProcess的输出打印到界面 */
     connect(cmd,&QProcess::readyReadStandardOutput,this,&MainWindow::on_readyReadStandardOutput);
-    QPalette palette = ui->textEdit->palette();
+    QPalette palette = ui->textEdit->palette();  //
     palette.setColor(QPalette::Base,Qt::black);
     palette.setColor(QPalette::Text,Qt::white);
     ui->textEdit->setPalette(palette);
@@ -88,22 +88,48 @@ char* MainWindow::shellcmd(char* cmd, char* buff, int size)
 
 void MainWindow::on_readyReadStandardOutput()
 {
-    QString outStr = QString::fromLocal8Bit(cmd->readAllStandardOutput());
-    ui->textEdit->append(outStr);
+
+    QString outStr = QString::fromLocal8Bit(cmd->readAllStandardOutput().data());
+    if(outStr.contains("\r",Qt::CaseSensitive) == true) //QT字符串判断是否含有某特定字符串,成功返回true 第二个参数表示是否大小写敏感)
+    {
+        ui->textEdit->moveCursor(QTextCursor::PreviousRow);
+    }else
+    {
+        ui->textEdit->moveCursor(QTextCursor::End);  //此方式追加是不换行追加
+    }
+
+    ui->textEdit->insertPlainText(outStr);       //（在读写指针的位置处插入）
+
+    //ui->textEdit->append(outStr);              //此方法追加内容是换行追加
+    //ui->textEdit->append(cmd->readAllStandardOutput().data());
 }
 
 
 void MainWindow::on_pushButton_clicked()
 {
-    QStringList arguments;
-
-    arguments<< "d";
-    cmd->setProgram("nmcli");
-    cmd->setArguments(arguments);
-    cmd->start();
+    cmd->start("bash");
+    cmd->waitForStarted();
+    cmd->write("sudo -S ./flash.sh -r -k DTB jetson-nano-emmc mmcblk0p1\n");
 }
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    qDebug() << passwd->userpasswd;
+    cmd->start("bash");
+    cmd->waitForStarted();
+    cmd->write("sudo -S ./flash.sh -r -K kernel/Image -k LNX jetson-nano-emmc mmcblk0p1\n");
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    cmd->start("bash");
+    cmd->waitForStarted();
+    cmd->write("sudo -S ./flash.sh jetson-nano-emmc mmcblk0p1\n");
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    cmd->start("bash");
+    cmd->waitForStarted();
+    cmd->write("sudo -S ./flash.sh -r jetson-nano-emmc mmcblk0p1\n");
+
 }
