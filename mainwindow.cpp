@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     palette.setColor(QPalette::Base,Qt::black);
     palette.setColor(QPalette::Text,Qt::white);
     ui->textEdit->setPalette(palette);
+    ui->textEdit->setTextInteractionFlags(Qt::NoTextInteraction);  //textedit控件禁止鼠标选中文本方法
+
 }
 
 MainWindow::~MainWindow()
@@ -88,17 +90,46 @@ char* MainWindow::shellcmd(char* cmd, char* buff, int size)
 
 void MainWindow::on_readyReadStandardOutput()
 {
+    //txtcur.movePosition(QTextCursor::EndOfLine,QTextCursor::KeepAnchor);//读取一行
+    //QString qstr = txtcur.selectedText();
 
     QString outStr = QString::fromLocal8Bit(cmd->readAllStandardOutput().data());
+    QTextCursor txtcur = ui->textEdit->textCursor();
+
     if(outStr.contains("\r",Qt::CaseSensitive) == true) //QT字符串判断是否含有某特定字符串,成功返回true 第二个参数表示是否大小写敏感)
     {
-        ui->textEdit->moveCursor(QTextCursor::PreviousRow);
-    }else
-    {
+        if(outStr.contains("\r\n",Qt::CaseSensitive) == true) //QT字符串判断是否含有某特定字符串,成功返回true 第二个参数表示是否大小写敏感)
+        {
+            ui->textEdit->moveCursor(QTextCursor::End);  //此方式追加是不换行追加
+            ui->textEdit->insertPlainText(outStr);       //（在读写指针的位置处插入）
+            ui->textEdit->setTextCursor(txtcur);
+        }else {
+            QStringList list = outStr.split('\r',QString::SkipEmptyParts);
+
+            for(int i = 0; i< list.size();++i)
+            {
+                QString tmp = list.at(i);
+
+                if(ready_cnt != 0)
+                {
+                    txtcur.movePosition(QTextCursor::StartOfLine,QTextCursor::KeepAnchor);
+                    txtcur.removeSelectedText();
+                }
+
+                ui->textEdit->moveCursor(QTextCursor::End);  //此方式追加是不换行追加
+                ui->textEdit->insertPlainText(tmp);       //（在读写指针的位置处插入）
+                ui->textEdit->setTextCursor(txtcur);         //
+                ready_cnt++;
+                qDebug()<<"tmp ="<< tmp;
+            }
+        }
+    }else{
         ui->textEdit->moveCursor(QTextCursor::End);  //此方式追加是不换行追加
+        ui->textEdit->insertPlainText(outStr);       //（在读写指针的位置处插入）
+        ui->textEdit->setTextCursor(txtcur);
     }
 
-    ui->textEdit->insertPlainText(outStr);       //（在读写指针的位置处插入）
+
 
     //ui->textEdit->append(outStr);              //此方法追加内容是换行追加
     //ui->textEdit->append(cmd->readAllStandardOutput().data());

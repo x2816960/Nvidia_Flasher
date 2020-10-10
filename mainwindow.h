@@ -19,6 +19,7 @@ public:
     void init();
     char *shellcmd(char* cmd, char* buff, int size);
     int root_flag;  //是否是root用户，1为root,0为非root
+    int ready_cnt = 0;
 
 private slots:
     void on_readyReadStandardOutput();
