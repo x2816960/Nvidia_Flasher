@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1027</width>
-    <height>501</height>
+    <height>512</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,53 +30,103 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>20</y>
-      <width>89</width>
-      <height>25</height>
+      <x>910</x>
+      <y>100</y>
+      <width>101</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>更新设备树</string>
+     <string>更新设备树
+Update DTB</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>60</y>
-      <width>89</width>
-      <height>25</height>
+      <x>910</x>
+      <y>150</y>
+      <width>101</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>更新内核</string>
+     <string>更新内核
+Update Kernel</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
       <x>908</x>
-      <y>410</y>
+      <y>400</y>
       <width>111</width>
-      <height>25</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
-     <string>首次组建并烧录</string>
+     <string>首次组建并烧录
+First build and
+ Update All</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>100</y>
-      <width>89</width>
+      <x>910</x>
+      <y>200</y>
+      <width>101</width>
       <height>71</height>
      </rect>
     </property>
     <property name="text">
-     <string>全部烧录</string>
+     <string>全部烧录
+Update All</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_board">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>40</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Ubuntu</family>
+      <pointsize>15</pointsize>
+      <weight>7</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 57 italic 15pt &quot;Ubuntu&quot;;
+color: rgb(239, 41, 41);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>10</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>板卡类型</string>
     </property>
    </widget>
   </widget>
@@ -89,16 +139,59 @@
      <height>22</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>About</string>
+    </property>
+    <addaction name="actionInformation"/>
+   </widget>
+   <widget class="QMenu" name="menuSetup">
+    <property name="title">
+     <string>Setup</string>
+    </property>
+    <widget class="QMenu" name="menuBoard">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="tearOffEnabled">
+      <bool>false</bool>
+     </property>
+     <property name="title">
+      <string>Board</string>
+     </property>
+     <addaction name="actionJetson_nano_B01_EMMC"/>
+     <addaction name="actionJetson_nano_B01_Sdcard"/>
+    </widget>
+    <addaction name="menuBoard"/>
+   </widget>
+   <addaction name="menuSetup"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionInformation">
+   <property name="text">
+    <string>Information</string>
+   </property>
+  </action>
+  <action name="actionJetson_nano_B01_EMMC">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Jetson nano B01 EMMC</string>
+   </property>
+  </action>
+  <action name="actionJetson_nano_B01_Sdcard">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Jetson nano B01 Sdcard</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

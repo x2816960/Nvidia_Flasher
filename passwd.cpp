@@ -81,6 +81,6 @@ void Passwd::on_pushButton_clicked()
         this->close();
     }else {
         qDebug() << "密码错误";
-        ui->label_2->setText("密码错误");
+        ui->label_2->setText("密码错误 Passwd error!");
     }
 }
