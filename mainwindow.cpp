@@ -78,8 +78,8 @@ void MainWindow::init()
     {
         ui->actionJetson_nano_B01_EMMC->setChecked(true);
         ui->actionJetson_nano_B01_Sdcard->setChecked(false);
-        ui->actionJetson_nx_EMMC->setCheckable(false);
-        ui->actionJetson_nx_Sdcard->setCheckable(false);
+        ui->actionJetson_nx_EMMC->setChecked(false);
+        ui->actionJetson_nx_Sdcard->setChecked(false);
         ui->label_board->setText("Nano B01\nEMMC");
         //deleteOnelineInFile(0,sFile);
         file.write("Jetson nano emmc\n");
@@ -261,7 +261,7 @@ void MainWindow::on_readyReadStandardOutput()
                 }
             }
 
-            if(outStr.contains("DTB") == true)       //设备树成功
+            if(outStr.contains("DTB") == true || outStr.contains("kernel-dtb") == true)       //设备树成功
             {
                 if(QMessageBox::Ok == QMessageBox::information(this,"Information","设备树烧录成功!",QMessageBox::Ok))
                 {
@@ -271,7 +271,7 @@ void MainWindow::on_readyReadStandardOutput()
                 }
             }
 
-            if(outStr.contains("t210ref") == true)   //整体固件烧录成功
+            if(outStr.contains("t210ref") == true || outStr.contains("t186ref") == true)   //整体固件烧录成功
             {
                 if(QMessageBox::Ok == QMessageBox::information(this,"Information","整体固件烧录成功!",QMessageBox::Ok))
                 {
