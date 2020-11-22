@@ -42,6 +42,9 @@ Update DTB</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>910</x>
@@ -161,6 +164,9 @@ color: rgb(239, 41, 41);</string>
      </property>
      <addaction name="actionJetson_nano_B01_EMMC"/>
      <addaction name="actionJetson_nano_B01_Sdcard"/>
+     <addaction name="actionJetson_nx_EMMC"/>
+     <addaction name="actionJetson_nx_Sdcard"/>
+     <addaction name="separator"/>
     </widget>
     <addaction name="menuBoard"/>
    </widget>
@@ -190,6 +196,25 @@ color: rgb(239, 41, 41);</string>
    </property>
    <property name="text">
     <string>Jetson nano B01 Sdcard</string>
+   </property>
+  </action>
+  <action name="actionJetson_nx_EMMC">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Jetson nx EMMC</string>
+   </property>
+  </action>
+  <action name="actionJetson_nx_Sdcard">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Jetson nx Sdcard</string>
    </property>
   </action>
  </widget>

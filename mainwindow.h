@@ -30,6 +30,8 @@ public:
     /* board_type 板卡类型：
      * 0：Jetson nano B01 EMMC
      * 1: Jetson nano B01 SDCARD
+     * 2: Jetson nx EMMC
+     * 3: Jetson nx Sdcard
      */
     int board_type;
 
@@ -50,6 +52,10 @@ private slots:
     void on_actionJetson_nano_B01_EMMC_triggered();
 
     void on_actionJetson_nano_B01_Sdcard_triggered();
+
+    void on_actionJetson_nx_EMMC_triggered();
+
+    void on_actionJetson_nx_Sdcard_triggered();
 
 private:
     Ui::MainWindow *ui;

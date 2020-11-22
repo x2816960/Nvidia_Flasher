@@ -46,20 +46,43 @@ void MainWindow::init()
     {
         ui->actionJetson_nano_B01_EMMC->setChecked(true);
         ui->actionJetson_nano_B01_Sdcard->setChecked(false);
+        ui->actionJetson_nx_EMMC->setChecked(false);
+        ui->actionJetson_nx_Sdcard->setChecked(false);
         ui->label_board->setText("Nano B01\nEMMC");
         board_type = 0;
     } else if(line.contains("Jetson nano sdcard")){
         ui->actionJetson_nano_B01_EMMC->setChecked(false);
         ui->actionJetson_nano_B01_Sdcard->setChecked(true);
+        ui->actionJetson_nx_EMMC->setChecked(false);
+        ui->actionJetson_nx_Sdcard->setChecked(false);
         ui->label_board->setText("Nano B01\nSdcard");
         board_type = 1;
-    } else
+    } else if(line.contains("Jetson nx emmc")) {
+        ui->actionJetson_nano_B01_EMMC->setChecked(false);
+        ui->actionJetson_nano_B01_Sdcard->setChecked(false);
+        ui->actionJetson_nx_EMMC->setChecked(true);
+        ui->actionJetson_nx_Sdcard->setChecked(false);
+        ui->pushButton_3->setEnabled(false);           //Jetson nx未能研究出直接烧录内核的方式，故烧录内核的按钮禁用
+        ui->label_board->setText("   NX \nEMMC");
+        board_type = 2;
+    } else if(line.contains("Jetson nx sdcard")) {
+        ui->actionJetson_nano_B01_EMMC->setChecked(false);
+        ui->actionJetson_nano_B01_Sdcard->setChecked(false);
+        ui->actionJetson_nx_EMMC->setChecked(false);
+        ui->actionJetson_nx_Sdcard->setChecked(true);
+        ui->pushButton_3->setEnabled(false);           //Jetson nx未能研究出直接烧录内核的方式，故烧录内核的按钮禁用
+        ui->label_board->setText("   NX \nSdcard");
+        board_type = 3;
+    }
+    else
     {
         ui->actionJetson_nano_B01_EMMC->setChecked(true);
         ui->actionJetson_nano_B01_Sdcard->setChecked(false);
+        ui->actionJetson_nx_EMMC->setCheckable(false);
+        ui->actionJetson_nx_Sdcard->setCheckable(false);
         ui->label_board->setText("Nano B01\nEMMC");
-        deleteOnelineInFile(0,sFile);
-        file.write("Jetson nano emmc");
+        //deleteOnelineInFile(0,sFile);
+        file.write("Jetson nano emmc\n");
         board_type = 0;
     }
     file.close();
@@ -297,6 +320,12 @@ void MainWindow::on_pushButton_clicked()         //Update DTB button
     }else if (board_type == 1)                   //Jetson nano B01 SDCARD
     {
         cmd->write("sudo -S ./flash.sh -r -k DTB jetson-nano-qspi-sd mmcblk0p1\n");
+    }else if (board_type == 2)                   //Jetson nx EMMC
+    {
+        cmd->write("sudo -S ./flash.sh -r -k kernel-dtb p3449-0000+p3668-0001-qspi-emmc mmcblk0p1\n");
+    }else if (board_type == 3)                   //Jetson nx Sdcard
+    {
+        cmd->write("sudo -S ./flash.sh -r -k kernel-dtb p3509-0000+p3668-0000-qspi-sd mmcblk0p1\n");
     }
 
 
@@ -313,8 +342,7 @@ void MainWindow::on_pushButton_3_clicked()
     }else if (board_type == 1)                   //Jetson nano B01 SDCARD
     {
         cmd->write("sudo -S ./flash.sh -r -K kernel/Image -k LNX jetson-nano-qspi-sd mmcblk0p1\n");
-    }
-
+    }else if (board_type == 2)                   //Jetson nx EMMC
 
     button_disable();      //按钮点击后禁用
 }
@@ -329,6 +357,12 @@ void MainWindow::on_pushButton_2_clicked()
     }else if (board_type == 1)                   //Jetson nano B01 SDCARD
     {
         cmd->write("sudo -S ./flash.sh jetson-nano-qspi-sd mmcblk0p1\n");
+    }else if (board_type == 2)                   //Jetson nx EMMC
+    {
+        cmd->write("sudo -S ./flash.sh p3449-0000+p3668-0001-qspi-emmc mmcblk0p1\n");
+    }else if (board_type == 3)                   //Jetson nx Sdcard
+    {
+        cmd->write("sudo -S ./flash.sh p3509-0000+p3668-0000-qspi-sd mmcblk0p1\n");
     }
 
 
@@ -345,6 +379,12 @@ void MainWindow::on_pushButton_4_clicked()
     }else if (board_type == 1)                   //Jetson nano B01 SDCARD
     {
         cmd->write("sudo -S ./flash.sh -r jetson-nano-qspi-sd mmcblk0p1\n");
+    }else if (board_type == 2)                   //Jetson nx EMMC
+    {
+        cmd->write("sudo -S ./flash.sh -r p3449-0000+p3668-0001-qspi-emmc mmcblk0p1\n");
+    }else if (board_type == 3)                   //Jetson nx Sdcard
+    {
+        cmd->write("sudo -S ./flash.sh -r p3509-0000+p3668-0000-qspi-sd mmcblk0p1\n");
     }
 
     button_disable();      //按钮点击后禁用
@@ -352,7 +392,7 @@ void MainWindow::on_pushButton_4_clicked()
 
 void MainWindow::on_actionInformation_triggered()
 {
-    if(QMessageBox::Ok == QMessageBox::information(this,"Information","APP Version : V1.0.0\nAuthor: XUW <360828046@qq.com>\nRelease time:2020.10.12 +8 16:07",QMessageBox::Ok))
+    if(QMessageBox::Ok == QMessageBox::information(this,"Information","APP Version : V2.0.0\nAuthor: XUW <360828046@qq.com>\nRelease time:2020.11.22 +8 11:20",QMessageBox::Ok))
     {
 
     }
@@ -361,12 +401,15 @@ void MainWindow::on_actionInformation_triggered()
 void MainWindow::on_actionJetson_nano_B01_EMMC_triggered()
 {
     ui->actionJetson_nano_B01_Sdcard->setChecked(false);
+    ui->actionJetson_nx_EMMC->setChecked(false);
+    ui->actionJetson_nx_Sdcard->setChecked(false);
+    ui->pushButton_3->setEnabled(true);
     ui->label_board->setText("Nano B01\nEMMC");
 
     QFile file(sFile);
     file.open(QIODevice::ReadWrite | QIODevice::Text);
     deleteOnelineInFile(0,sFile);
-    file.write("Jetson nano emmc");
+    file.write("Jetson nano emmc\n");
     board_type = 0;
     file.close();
 }
@@ -374,12 +417,47 @@ void MainWindow::on_actionJetson_nano_B01_EMMC_triggered()
 void MainWindow::on_actionJetson_nano_B01_Sdcard_triggered()
 {
     ui->actionJetson_nano_B01_EMMC->setChecked(false);
+    ui->actionJetson_nx_EMMC->setChecked(false);
+    ui->actionJetson_nx_Sdcard->setChecked(false);
+    ui->pushButton_3->setEnabled(true);
     ui->label_board->setText("Nano B01\nSdcard");
 
     QFile file(sFile);
     file.open(QIODevice::ReadWrite | QIODevice::Text);
     deleteOnelineInFile(0,sFile);
-    file.write("Jetson nano sdcard");
+    file.write("Jetson nano sdcard\n");
     board_type = 1;
+    file.close();
+}
+
+void MainWindow::on_actionJetson_nx_EMMC_triggered()
+{
+    ui->actionJetson_nano_B01_EMMC->setChecked(false);
+    ui->actionJetson_nano_B01_Sdcard->setChecked(false);
+    ui->actionJetson_nx_Sdcard->setChecked(false);
+    ui->pushButton_3->setEnabled(false);           //Jetson nx未能研究出直接烧录内核的方式，故烧录内核的按钮禁用
+    ui->label_board->setText("   Nx\nEMMC");
+
+    QFile file(sFile);
+    file.open(QIODevice::ReadWrite | QIODevice::Text);
+    deleteOnelineInFile(0,sFile);
+    file.write("Jetson nx emmc\n");
+    board_type = 2;
+    file.close();
+}
+
+void MainWindow::on_actionJetson_nx_Sdcard_triggered()
+{
+    ui->actionJetson_nano_B01_EMMC->setChecked(false);
+    ui->actionJetson_nano_B01_Sdcard->setChecked(false);
+    ui->actionJetson_nx_EMMC->setChecked(false);
+    ui->pushButton_3->setEnabled(false);           //Jetson nx未能研究出直接烧录内核的方式，故烧录内核的按钮禁用
+    ui->label_board->setText("   Nx\nSdcard");
+
+    QFile file(sFile);
+    file.open(QIODevice::ReadWrite | QIODevice::Text);
+    deleteOnelineInFile(0,sFile);
+    file.write("Jetson nx sdcard\n");
+    board_type = 3;
     file.close();
 }
