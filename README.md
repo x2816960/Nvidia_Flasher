@@ -1,11 +1,16 @@
 Jetson nano QT图形化界面烧录工具    
+-------------2021-01-14---------------    
+Release Version:V3.0.0    
+1.添加导入文件系统镜像的功能,可以将.raw的文件系统镜像挂载到rootfs目录下    
+    
+1.Add filesystem load function,can mount .raw under rootfs/    
 -------------2020-11-22---------------    
 Release Version:V2.0.0
 1.添加Jetson nx的支持包括nx emmc以及nx sdcard版本    
-2.暂时不支持Jetson nx单独烧录内核的功能。
+2.暂时不支持Jetson nx单独烧录内核的功能。    
 
-1.Add Jetson nx support including nx emmc and nx sdcard version
-2.It does not support Jetson nx to burn the kernel separately.
+1.Add Jetson nx support including nx emmc and nx sdcard version    
+2.It does not support Jetson nx to burn the kernel separately.    
 
 -------------2020-10-12---------------    
 Release Version:V1.0.0    
