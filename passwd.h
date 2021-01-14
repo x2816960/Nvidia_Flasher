@@ -16,6 +16,7 @@ public:
     explicit Passwd(QWidget *parent = 0);
     ~Passwd();
     QString userpasswd;
+    char *userpasswd_char;
     char *shellcmd(char* cmd, char* buff, int size);
 
 private slots:

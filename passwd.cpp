@@ -54,7 +54,7 @@ void Passwd::on_pushButton_clicked()
 {
     char buff[1024];
     char cmd[1024];
-    char *userpasswd_char;
+    //char *userpasswd_char;
     userpasswd = ui->lineEdit->text().toUtf8();
     userpasswd = userpasswd + '\n';
     QByteArray ba = userpasswd.toLatin1();
@@ -66,6 +66,7 @@ void Passwd::on_pushButton_clicked()
     QString str = QLatin1String(userpasswd_char);
     qDebug() << qPrintable(str.trimmed());  //trimmed移除字符串两端的换行或空白,qPrintable移除引号
 
+    userpasswd = qPrintable(str.trimmed());
     sprintf(cmd,"echo \"%s\" | sudo -S ls Nvidia_flasher",qPrintable(str.trimmed()));
     qDebug() << cmd;
     shellcmd(cmd, buff, sizeof(buff));

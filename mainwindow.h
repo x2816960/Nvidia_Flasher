@@ -57,6 +57,8 @@ private slots:
 
     void on_actionJetson_nx_Sdcard_triggered();
 
+    void on_actionIMG_Load_triggered();
+
 private:
     Ui::MainWindow *ui;
     QProcess *cmd;

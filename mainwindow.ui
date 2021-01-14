@@ -139,7 +139,7 @@ color: rgb(239, 41, 41);</string>
      <x>0</x>
      <y>0</y>
      <width>1027</width>
-     <height>22</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
@@ -169,6 +169,7 @@ color: rgb(239, 41, 41);</string>
      <addaction name="separator"/>
     </widget>
     <addaction name="menuBoard"/>
+    <addaction name="actionIMG_Load"/>
    </widget>
    <addaction name="menuSetup"/>
    <addaction name="menuAbout"/>
@@ -215,6 +216,11 @@ color: rgb(239, 41, 41);</string>
    </property>
    <property name="text">
     <string>Jetson nx Sdcard</string>
+   </property>
+  </action>
+  <action name="actionIMG_Load">
+   <property name="text">
+    <string>IMG Load</string>
    </property>
   </action>
  </widget>

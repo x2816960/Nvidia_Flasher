@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QFile>
 #include <QDir>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -392,7 +393,7 @@ void MainWindow::on_pushButton_4_clicked()
 
 void MainWindow::on_actionInformation_triggered()
 {
-    if(QMessageBox::Ok == QMessageBox::information(this,"Information","APP Version : V2.0.0\nAuthor: XUW <360828046@qq.com>\nRelease time:2020.11.22 +8 11:20",QMessageBox::Ok))
+    if(QMessageBox::Ok == QMessageBox::information(this,"Information","APP Version : V3.0.0\nAuthor: XUW <360828046@qq.com>\nRelease time:2021.01.14 +8 10:49",QMessageBox::Ok))
     {
 
     }
@@ -460,4 +461,37 @@ void MainWindow::on_actionJetson_nx_Sdcard_triggered()
     file.write("Jetson nx sdcard\n");
     board_type = 3;
     file.close();
+}
+
+void MainWindow::on_actionIMG_Load_triggered()
+{
+    char buff[1024];
+    //定义文件对话框类
+        QFileDialog *fileDialog = new QFileDialog(this);
+        //定义文件对话框标题
+        fileDialog->setWindowTitle(QStringLiteral("选中文件"));
+        //设置默认文件路径
+        fileDialog->setDirectory(".");
+        //设置文件过滤器
+        fileDialog->setNameFilter(tr("*.raw"));//fileDialog->setNameFilter(tr("File(*.*)"));
+        //设置可以选择多个文件,默认为只能选择一个文件QFileDialog::ExistingFiles
+        fileDialog->setFileMode(QFileDialog::ExistingFiles);
+        //设置视图模式
+        fileDialog->setViewMode(QFileDialog::Detail);
+        //打印所有选择的文件的路径
+        QStringList fileNames;
+        QString fileNames_Qstr;
+        if (fileDialog->exec()) {
+            fileNames = fileDialog->selectedFiles();
+            qDebug() << fileNames;
+            fileNames_Qstr = fileNames.join(",");
+            qDebug() << qPrintable(fileNames_Qstr.trimmed());  //trimmed移除字符串两端的换行或空白,qPrintable移除引号
+            //此处未进行判断rootfs文件夹是否存在，默认存在
+
+            sprintf(buff,"echo \"%s\" | sudo mount %s rootfs/\n",qPrintable(passwd->userpasswd.trimmed()),qPrintable(fileNames_Qstr.trimmed()));
+            qDebug() << buff;
+            cmd->start("bash");
+            cmd->waitForStarted();
+            cmd->write(buff);
+            }
 }
