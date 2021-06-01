@@ -166,6 +166,7 @@ color: rgb(239, 41, 41);</string>
      <addaction name="actionJetson_nano_B01_Sdcard"/>
      <addaction name="actionJetson_nx_EMMC"/>
      <addaction name="actionJetson_nx_Sdcard"/>
+     <addaction name="actionJetson_tx2_nx"/>
      <addaction name="separator"/>
     </widget>
     <addaction name="menuBoard"/>
@@ -221,6 +222,14 @@ color: rgb(239, 41, 41);</string>
   <action name="actionIMG_Load">
    <property name="text">
     <string>IMG Load</string>
+   </property>
+  </action>
+  <action name="actionJetson_tx2_nx">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Jetson tx2 nx</string>
    </property>
   </action>
  </widget>
