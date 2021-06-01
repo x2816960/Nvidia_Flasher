@@ -1,4 +1,10 @@
 Jetson nano QT图形化界面烧录工具    
+-------------2021-06-01---------------    
+Release Version:V4.0.0    
+1.新增Jetson tx2 nx烧录功能    
+    
+1.Support Jetson tx2 nx    
+
 -------------2021-01-14---------------    
 Release Version:V3.0.0    
 1.添加导入文件系统镜像的功能,可以将.raw的文件系统镜像挂载到rootfs目录下    
